@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<h3>InformationForAllEmployees</h3>
+<br>
+<div sec:authorize="hasRole('HR')">
+    <form th:method="get" th:action="@{/hrInfo}">
+        <input type="submit" value="Salary">
+    </form>
+    Only for HR
+    <br><br>
+</div>
+<div sec:authorize="hasRole('MANAGER')">
+    <form th:method="get" th:action="@{/managerInfo}">
+        <input type="submit" value="Performance">
+    </form>
+    Only for manager
+    <br><br>
+</div>
+</body>
+</html>

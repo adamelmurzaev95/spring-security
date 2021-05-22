@@ -1,5 +1,6 @@
 package com.adam.springcourse.security.config;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,8 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+
+import java.beans.PropertyVetoException;
 
 @Configuration
 @ComponentScan("com.adam.springcourse.security")
@@ -54,5 +57,14 @@ public class MyConfig implements WebMvcConfigurer {
         return new SpringSecurityDialect();
     }
 
-
+    @Bean(destroyMethod = "close")
+    public ComboPooledDataSource dataSource() throws PropertyVetoException {
+        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+        dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
+        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/my_db?" +
+                "autoReconnect=true&useSSL=FALSE&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
+        dataSource.setUser("root");
+        dataSource.setPassword("root");
+        return dataSource;
+    }
 }
